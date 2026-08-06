@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://cdn.jsdelivr.net; worker-src 'self' blob: https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' https://api.spotify.com https://accounts.spotify.com https://storage.googleapis.com https://cdn.jsdelivr.net blob: data:;"
+    />
+    <title>HANDSHAKE</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <video id="camera-feed" autoplay playsinline muted></video>
+      <canvas id="skeleton-overlay"></canvas>
+
+      <div id="confidence-meter" aria-hidden="true"></div>
+
+      <div id="hud-left" class="hud-panel hud-panel--left"></div>
+      <div id="hud-right" class="hud-panel hud-panel--right"></div>
+
+      <div id="top-left-toggles" class="hidden">
+        <button id="legend-toggle" class="btn btn--secondary">Gestures</button>
+        <button id="library-toggle" class="btn btn--secondary">Library</button>
+      </div>
+      <div id="gesture-legend" class="hidden"></div>
+      <div id="library-panel" class="hidden">
+        <div class="library-panel__header">
+          <span class="hud-label">Library</span>
+          <button class="btn btn--tiny" id="import-folder-button">Import folder</button>
+        </div>
+        <div id="library-status" class="library-panel__status"></div>
+        <div id="library-list"></div>
+      </div>
+
+      <div id="debug-readout" class="hidden"></div>
+
+      <div id="console" class="hidden">
+        <div class="deck deck--a" data-deck="A">
+          <div class="deck__header">
+            <span class="deck__label">Deck A</span>
+            <span class="deck__bpm hud-value" id="bpm-a">— BPM</span>
+            <button class="btn btn--tiny deck__gesture-toggle" data-deck-target="A">Gestures</button>
+          </div>
+          <canvas class="deck__waveform" id="waveform-a"></canvas>
+          <div class="deck__filename" id="filename-a">No track loaded</div>
+          <div class="deck__row">
+            <button class="btn btn--secondary" id="load-a">Load</button>
+            <button class="btn btn--secondary" id="play-a" disabled>Play</button>
+          </div>
+        </div>
+
+        <div class="crossfader">
+          <button class="btn btn--tiny" id="transition-to-b" title="Auto-transition A to B">A → B</button>
+          <span class="crossfader__label crossfader__label--left">A</span>
+          <input type="range" id="crossfader" min="0" max="100" value="0" />
+          <span class="crossfader__label crossfader__label--right">B</span>
+          <button class="btn btn--tiny" id="transition-to-a" title="Auto-transition B to A">B → A</button>
+        </div>
+
+        <div class="deck deck--b" data-deck="B">
+          <div class="deck__header">
+            <button class="btn btn--tiny deck__gesture-toggle" data-deck-target="B">Gestures</button>
+            <span class="deck__bpm hud-value" id="bpm-b">— BPM</span>
+            <span class="deck__label">Deck B</span>
+          </div>
+          <canvas class="deck__waveform" id="waveform-b"></canvas>
+          <div class="deck__filename" id="filename-b">No track loaded</div>
+          <div class="deck__row">
+            <button class="btn btn--secondary" id="load-b">Load</button>
+            <button class="btn btn--secondary" id="play-b" disabled>Play</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="start-screen">
+        <div class="start-screen__mark">
+          <span class="start-screen__dot start-screen__dot--left"></span>
+          <h1>HANDSHAKE</h1>
+          <span class="start-screen__dot start-screen__dot--right"></span>
+        </div>
+        <p class="start-screen__subhead">Gesture-controlled live music mangler</p>
+        <button id="start-button" class="btn btn--primary">Enable camera &amp; audio</button>
+        <div id="start-status" class="start-screen__status"></div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
